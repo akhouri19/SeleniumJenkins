@@ -1,0 +1,222 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>MyCucumberSelenium</groupId>
+  <artifactId>MyCucumberSelenium</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+<properties>
+
+</properties>
+
+
+<dependencies>
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-java</artifactId>
+    <version>4.8.1</version>
+</dependency>
+
+
+<!-- https://mvnrepository.com/artifact/junit/junit -->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+<groupId>com.google.guava</groupId>
+<artifactId>guava</artifactId>
+<version>27.0.1-jre</version>
+</dependency>
+
+
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-junit</artifactId>
+    <version>4.8.1</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.0.0-alpha-1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/net.masterthought/maven-cucumber-reporting -->
+<dependency>
+    <groupId>net.masterthought</groupId>
+    <artifactId>maven-cucumber-reporting</artifactId>
+    <version>3.14.0</version>
+</dependency>
+
+
+
+</dependencies>
+
+<build>
+		<plugins>
+			<!-- Maven compiler plugin -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+
+			<!-- Maven Properties plugin which will write the properties in ${project.build.directory}/classes/framework.properties 
+				file -->
+
+			<plugin>
+				<groupId>org.kuali.maven.plugins</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>2.0.1</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>write-project-properties</goal>
+						</goals>
+						<configuration>
+
+							<includeStandardMavenProperties>true</includeStandardMavenProperties>
+
+							<outputFile>
+								${project.build.directory}/classes/framework.properties
+							</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<version>2.19.1</version> <executions> <execution> <id>acceptance-test</id> 
+				<phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration> 
+				<forkCount>${surefire.fork.count}</forkCount> <reuseForks>false</reuseForks> 
+				<argLine>-Duser.language=en</argLine> <argLine>-Xmx1024m</argLine> <argLine>-XX:MaxPermSize=256m</argLine> 
+				<argLine>-Dfile.encoding=UTF-8</argLine> <useFile>false</useFile> <includes> 
+				<include>${include.runner}</include> </includes> <testFailureIgnore>true</testFailureIgnore> 
+				</configuration> </execution> </executions> </plugin> -->
+			
+			<plugin>
+				<groupId>com.github.temyers</groupId>
+				<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+				<version>5.0.0</version>
+				<executions>
+					<execution>
+						<id>generateRunners</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>generateRunners</goal>
+						</goals>
+						<configuration>
+							<!-- Mandatory -->
+							<!-- List of package names to scan for glue code. -->
+							<glue>
+								<package>com.vodafone.vodafoneEnabler.stepdefs</package>
+							</glue>
+							<!-- These are optional, with the default values -->
+							<!-- Where to output the generated tests -->
+							<outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
+							<!-- The directory, which must be in the root of the runtime classpath, 
+								containing your feature files. -->
+							<featuresDirectory>src/test/resources/</featuresDirectory>
+							<!-- Directory where the cucumber report files shall be written -->
+							<cucumberOutputDir>target/cucumber-reports</cucumberOutputDir>
+							<!-- <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir> -->
+							<!-- List of cucumber plugins. When none are provided the json formatter 
+								is used. For more advanced usage see section about configuring cucumber plugins -->
+							<plugins>
+								<plugin>
+									<name>json</name>
+								</plugin>
+							</plugins>
+
+							<!-- CucumberOptions.strict property -->
+							<strict>true</strict>
+							<!-- CucumberOptions.monochrome property -->
+							<monochrome>true</monochrome>
+							<!-- The tags to run, maps to CucumberOptions.tags property. Default 
+								is no tags. -->
+							<tags>
+								<tag>${tags}</tag>
+								<tag>~@ignore</tag>
+								<!-- <tag>@sh_register_DE or @sh_homeDoc</tag> <tag>@sh_tc_addressbook 
+									@sh_homeDoc</tag> -->
+							</tags>
+							<!-- Generate TestNG runners instead of JUnit ones. -->
+							<useTestNG>false</useTestNG>
+							<!-- The naming scheme to use for the generated test classes. One 
+								of 'simple' or 'feature-title' -->
+							<namingScheme>feature-title</namingScheme>
+							<!-- The class naming pattern to use. Only required/used if naming 
+								scheme is 'pattern'. -->
+							<namingPattern>Parallel{c}IT</namingPattern>
+							<!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per 
+								scenario. FEATURE generates a runner per feature. -->
+							<parallelScheme>FEATURE</parallelScheme>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19</version>
+				<configuration>
+					<additionalClasspathElements>
+						<additionalClasspathElement>resources</additionalClasspathElement>
+					</additionalClasspathElements>
+					<!-- <forkCount>${surefire.fork.count}</forkCount> -->
+					<forkCount>7</forkCount>
+					<includes>
+						<!-- <include>**/*setupPageRunnerTest.class</include> -->
+						<!-- <include>**/*AccessetupPageRunnerTest.class</include> -->
+						<include>**/*IT.class</include>
+					</includes>
+					<testFailureIgnore>false</testFailureIgnore>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>3.14.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>VF-Access</projectName>
+							<outputDirectory>${project.build.directory}/access/cucumber-reports/</outputDirectory>
+							<cucumberOutput> ${project.build.directory}/cucumber-reports/ </cucumberOutput>
+							<skippedFails>false</skippedFails>
+							<enableFlashCharts>false</enableFlashCharts>
+							<buildNumber></buildNumber>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+		</plugins>
+		
+	</build>
+
+</project>
