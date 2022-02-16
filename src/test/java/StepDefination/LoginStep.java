@@ -29,7 +29,7 @@ public class LoginStep {
 	@When("enter creds")
 	public void enter_creds() {
 		  System.out.println("creds page launched");
-	    //throw new cucumber.api.PendingException();
+		  driver.close();
 	}
 	
 	

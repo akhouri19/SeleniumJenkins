@@ -4,10 +4,16 @@
   <artifactId>MyCucumberSelenium</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
+ 
+
+
 <properties>
 
-</properties>
+ <maven.compiler.source>1.8</maven.compiler.source>
+ <maven.compiler.target>1.8</maven.compiler.target>
 
+
+</properties>
 
 <dependencies>
 <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
@@ -55,7 +61,7 @@
     <version>3.14.0</version>
 </dependency>
 
-
+              
 
 </dependencies>
 
@@ -81,7 +87,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>MyCucumberSelenium</projectName>
+                            <projectName>MyCucucmberSelenium</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
                         </configuration>
