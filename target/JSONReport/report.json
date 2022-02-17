@@ -3,7 +3,7 @@
     "line": 2,
     "elements": [
       {
-        "start_timestamp": "2022-02-17T12:16:40.115Z",
+        "start_timestamp": "2022-02-17T12:59:37.953Z",
         "line": 4,
         "name": "Test login",
         "description": "",
@@ -13,7 +13,7 @@
         "steps": [
           {
             "result": {
-              "duration": 4403440563,
+              "duration": 6197898083,
               "status": "passed"
             },
             "line": 5,
@@ -25,7 +25,7 @@
           },
           {
             "result": {
-              "duration": 137173384,
+              "duration": 132361287,
               "status": "passed"
             },
             "line": 6,
